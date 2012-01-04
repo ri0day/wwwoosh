@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 default_port="8080"
 http_version="HTTP/1.1"

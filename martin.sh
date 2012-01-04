@@ -71,7 +71,7 @@ martin_dispatch () {
 
     # set status header, echo headers, blank line, then body
     header "Status" "$response_status"
-    echo "$response_headers"
+    echo -e "$response_headers"
     echo ""
     cat "$martin_response"
 }
