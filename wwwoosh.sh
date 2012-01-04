@@ -4,8 +4,8 @@ default_port="8080"
 http_version="HTTP/1.1"
 wwwoosh_fifo="/tmp/wwwoosh_fifo"
 
-CR=$'\r'
-LF=$'\n'
+CR='\r'
+LF='\n'
 CRLF="$CR$LF"
 
 function handle_request () {
@@ -61,7 +61,7 @@ function handle_response () {
     response_headers="$response_headers$CRLF$header"
 
     # echo status line, headers, blank line, body
-    echo "$http_version $response_status$CRLF$response_headers$CRLF$CR"
+    echo -e "$http_version $response_status$CRLF$response_headers$CRLF$CR"
     cat
 }
 
