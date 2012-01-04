@@ -38,6 +38,16 @@ redirect_handler () {
     header "Location" "http://jackjs.org/"
 }
 
+get "/query" query_handler
+query_handler() {
+    header "Content-Type" "text/plain"
+    query_field=${QUERY_STRING%=*}
+    query_str=${QUERY_STRING#*=}
+    echo "you query field is $query_field, you query_str is $query_str"
+    mysql -H -uroot -p137259 -h10.10.93.8 test -e "select comment from bash_test where ${query_field}='${query_str}'"
+
+}
+
 # standalone using the wwwoosh server
 wwwoosh_run martin_dispatch 8081
 
