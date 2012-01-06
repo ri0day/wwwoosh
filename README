@@ -28,3 +28,31 @@ notes
 hopefully it's obvious, but these projects are for fun and not meant to be taken seriously. wwwoosh can only handle about 2 request per second (any additional fail completely), not to mention there's probably some pretty nasty security issues with it.
 
 it is, however, a testament to the simplicity of HTTP, and the power of unix shells
+
+
+=====
+说明:
+wwwoosh 是一个bash 编写的web framework
+=====
+整个框架只由3个文件组成:
+1.example.sh   #应用url映射与服务监听
+2.martin.sh    #route与处理
+3.wwwoosh.sh   #底层通讯
+=====
+expample.sh 是程序的入口，也是一个例子。使用者只需要在这里指定自己的url映射规则，以及自己的handler
+
+注意:
+
+每个handler都要指定最后以何种方式输出
+在handler里依旧可以调用常用CGI的环境变量.比如:$REQUEST_METHOD,$HTTP_VERSION,$PATH_INFO,$QUERY_STRING
+
+类似如下: (#仅示例而已,请注意sql注入请谨慎使用)
+
+get "/query" query_handler #这格式是固定的一定要写在一行分成3个段,至于原因请查看martin.sh里get函数与route函数
+query_handler() {
+        header "Content-Type" "text/plain"
+            query_field=${QUERY_STRING%=*}
+                query_str=${QUERY_STRING#*=}
+                    echo "you query field is $query_field, you query_str is $query_str"
+                        mysql -H -uusername -ppassword -h10.10.10.10 test -e "select comment from bash_test where ${query_field}='${query_str}'"
+}
